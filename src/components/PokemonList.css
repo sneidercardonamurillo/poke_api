@@ -10,8 +10,9 @@
   transition: border-color 0.3s ease;
   padding: 10px;
   border-radius: 8px;
-  width: 150px; /* Ajusta el ancho según sea necesario */
-  height: 200px; /* Ajusta la altura según sea necesario */
+  flex: 1 1 200px; /* Permite que las tarjetas crezcan y se reduzcan */
+  max-width: 30%; /* Limita el ancho máximo de las tarjetas */
+  height: auto; /* Altura automática para adaptarse al contenido */
   display: flex; /* Para alinear el contenido dentro de la tarjeta */
   flex-direction: column; /* Alinea el contenido verticalmente */
   justify-content: center; /* Centra el contenido verticalmente */
@@ -30,7 +31,7 @@
 }
 
 .rounded-card:hover {
-  background: linear-gradient(to right, violet, #ADD8E6); /* Gradiente de verde claro a azul claro */
+  background: linear-gradient(to right, #90EE90, #ADD8E6); /* Gradiente de verde claro a azul claro */
   color: white; /* Cambia el color del texto si es necesario */
 }
 
@@ -38,4 +39,17 @@
   display: flex;
   justify-content: center; /* Centrar horizontalmente */
   margin-bottom: 4px; /* Separación de 4px */
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+  .PokemonCard {
+    max-width: 45%; /* Se ajusta el ancho máximo en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .PokemonCard {
+    max-width: 100%; /* Las tarjetas ocuparán el 100% del ancho en pantallas muy pequeñas */
+  }
 }

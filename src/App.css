@@ -2,6 +2,8 @@
 
 .App {
   margin-top: 3rem;
+  background-color: palegreen; /* Cambia a azul */
+  min-height: 100vh; /* Asegúrate de que el fondo cubra toda la altura de la ventana */
 }
 
 .App img {

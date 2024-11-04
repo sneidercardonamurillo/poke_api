@@ -10,8 +10,32 @@
   transition: border-color 0.3s ease;
   padding: 10px;
   border-radius: 8px;
+  width: 150px; /* Ajusta el ancho según sea necesario */
+  height: 200px; /* Ajusta la altura según sea necesario */
+  display: flex; /* Para alinear el contenido dentro de la tarjeta */
+  flex-direction: column; /* Alinea el contenido verticalmente */
+  justify-content: center; /* Centra el contenido verticalmente */
+  align-items: center; /* Centra el contenido horizontalmente */
 }
 
 .PokemonCard:hover {
   border-color: green;
+}
+
+/* Efecto hover con gradiente */
+.rounded-card {
+  border-radius: 15px; /* Ajusta el valor para cambiar el radio del borde */
+  overflow: hidden; /* Para que las imágenes no sobresalgan de los bordes redondeados */
+  transition: background 0.5s, color 0.5s; /* Suaviza la transición del color de fondo y del texto */
+}
+
+.rounded-card:hover {
+  background: linear-gradient(to right, violet, #ADD8E6); /* Gradiente de verde claro a azul claro */
+  color: white; /* Cambia el color del texto si es necesario */
+}
+
+.card-container {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  margin-bottom: 4px; /* Separación de 4px */
 }

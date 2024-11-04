@@ -1,31 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Card, message } from "antd";
 
 const Searcher = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [pokemonData, setPokemonData] = useState(null);
+  const [pokemonData, setPokemonData] = useState([]);
+  const [allPokemons, setAllPokemons] = useState([]);
 
-  const handleSearch = async () => {
-    if (!searchTerm) {
-      setPokemonData(null);
+  useEffect(() => {
+    // Cargar todos los Pokémon al inicio
+    const loadPokemons = async () => {
+      const response = await fetch(
+        "https://pokeapi.co/api/v2/pokemon?limit=1000"
+      ); // Carga los primeros 1000 Pokémon
+      const data = await response.json();
+      setAllPokemons(data.results);
+    };
+
+    loadPokemons();
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm.length < 3) {
+      setPokemonData([]); // Limpia los datos si hay menos de 3 caracteres
       return;
     }
 
-    try {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${searchTerm.toLowerCase()}`
-      );
-      if (!response.ok) {
-        throw new Error("Pokémon no encontrado");
-      }
-      const data = await response.json();
-      setPokemonData(data); // Solo se guarda el nuevo Pokémon buscado
-    } catch (error) {
-      if (error.message === "Pokémon no encontrado") {
-        message.error(error.message);
-      }
-      setPokemonData(null); // Limpia los datos si hay un error
+    const filteredPokemons = allPokemons.filter((pokemon) =>
+      pokemon.name.startsWith(searchTerm.toLowerCase())
+    );
+
+    if (filteredPokemons.length > 0) {
+      fetchPokemonDetails(filteredPokemons);
+    } else {
+      setPokemonData([]);
+      message.error("Pokémon no encontrado");
     }
+  }, [searchTerm, allPokemons]);
+
+  const fetchPokemonDetails = async (filteredPokemons) => {
+    const detailsPromises = filteredPokemons.map((pokemon) =>
+      fetch(pokemon.url).then((response) => response.json())
+    );
+
+    const details = await Promise.all(detailsPromises);
+    setPokemonData(details);
   };
 
   return (
@@ -33,35 +51,34 @@ const Searcher = () => {
       <Input.Search
         placeholder="Buscar Pokémon..."
         style={{ marginBottom: 20 }}
-        onSearch={handleSearch}
         enterButton
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      {pokemonData && (
+      {pokemonData.map((pokemon) => (
         <Card
-          title={
-            pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)
-          }
+          key={pokemon.id}
+          title={pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
           cover={
             <img
-              alt={pokemonData.name}
-              src={pokemonData.sprites.front_default}
+              alt={pokemon.name}
+              src={pokemon.sprites.front_default}
               style={{ height: 120, objectFit: "contain" }}
             />
           }
           style={{
             borderRadius: 10,
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+            marginBottom: 20,
           }}
         >
           <Card.Meta
-            description={`ID: ${pokemonData.id}`}
+            description={`ID: ${pokemon.id}`}
             style={{ textAlign: "center" }}
           />
           <div style={{ textAlign: "center", marginTop: 10 }}>
             <strong>Tipos:</strong>
-            {pokemonData.types.map((typeInfo) => (
+            {pokemon.types.map((typeInfo) => (
               <span key={typeInfo.type.name} style={{ margin: "0 5px" }}>
                 {typeInfo.type.name.charAt(0).toUpperCase() +
                   typeInfo.type.name.slice(1)}
@@ -69,7 +86,7 @@ const Searcher = () => {
             ))}
           </div>
         </Card>
-      )}
+      ))}
     </div>
   );
 };

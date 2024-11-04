@@ -1,7 +1,17 @@
+/* PokemonList.css */
 .PokemonList {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  margin: 3rem;
-  padding: 0 3rem 3rem ;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.PokemonCard {
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.PokemonCard:hover {
+  border-color: green;
 }

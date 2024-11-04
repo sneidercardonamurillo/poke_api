@@ -6,6 +6,7 @@ import PokemonList from "./components/PokemonList";
 import logo from "./statics/logo.svg";
 import { fetchPokemonsWithDetails } from "./slices/dataSlice";
 import "./App.css";
+import Footer from "./components/Footer";
 
 function App() {
   const pokemons = useSelector((state) => state.data.pokemons, shallowEqual);
@@ -33,6 +34,7 @@ function App() {
       ) : (
         <PokemonList pokemons={pokemons} />
       )}
+      <Footer />
     </div>
   );
 }

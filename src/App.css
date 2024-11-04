@@ -1,9 +1,14 @@
 @import '~antd/dist/antd.css';
 
+
+body {
+  background: linear-gradient(to bottom, blue, purple, violet); /* Gradiente de colores */
+  margin: 0; /* Elimina el margen predeterminado */
+  min-height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+}
+
 .App {
   margin-top: 3rem;
-  background-color: palegreen; /* Cambia a azul */
-  min-height: 100vh; /* Asegúrate de que el fondo cubra toda la altura de la ventana */
 }
 
 .App img {

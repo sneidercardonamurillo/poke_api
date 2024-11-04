@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, Tooltip } from "antd";
 import { useDispatch } from "react-redux";
 import Meta from "antd/lib/card/Meta";
@@ -6,7 +7,7 @@ import { setFavorite } from "../slices/dataSlice";
 import PropTypes from "prop-types";
 import "./PokemonList.css";
 
-const PokemonCard = ({ name, image, types, id, favorite }) => {
+const PokemonCard = React.memo(({ name, image, types, id, favorite }) => {
   const dispatch = useDispatch();
   const typesString = types.map((elem) => elem.type.name).join(", ");
 
@@ -16,10 +17,8 @@ const PokemonCard = ({ name, image, types, id, favorite }) => {
 
   return (
     <div className="card-container">
-      {" "}
-      {/* Contenedor para centrar el card */}
       <Card
-        className="rounded-card" // Clase CSS para bordes redondeados
+        className="rounded-card"
         title={<Tooltip title={typesString}>{name}</Tooltip>}
         cover={image ? <img src={image} alt={name} /> : <div>No Image</div>}
         extra={<StarButton isFavorite={favorite} onClick={handleOnFavorite} />}
@@ -28,7 +27,7 @@ const PokemonCard = ({ name, image, types, id, favorite }) => {
       </Card>
     </div>
   );
-};
+});
 
 // Definición de tipos de propiedades
 PokemonCard.propTypes = {
